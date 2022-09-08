@@ -21,5 +21,6 @@
 |    :---:            |          :---:                |     :---:             |
 | Seng Maw            |    smaw@mail.sfsu.edu         |    mygibhug           |     Team Leader
 | Pritam Gautam       |    pgautam@sfsu.edu           |    pgautam54          |     Frontend Lead
+| Tyler Hsieh         |    thsieh3@mail.sfsu.edu      |    tyler9648          |     Github Master, Backend 
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
