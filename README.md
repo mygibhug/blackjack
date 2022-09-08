@@ -1,4 +1,4 @@
-# CSC648-spring22-SectionName-teamX Repository
+# CSC648-spring22-SectionName-team05 Repository
 
 ## Application URL: 
 
