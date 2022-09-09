@@ -21,6 +21,7 @@
 |    :---:            |          :---:                |     :---:             |
 | Seng Maw            |    smaw@mail.sfsu.edu         |    mygibhug           |     Team Leader
 | Pritam Gautam       |    pgautam@sfsu.edu           |    pgautam54          |     Frontend Lead
+| Sneha Shrestha.     |    sshrestha8@mail.sfsu.edu.  |    snehagithub7.      |     Frontend Lead
 | Tyler Hsieh         |    thsieh3@mail.sfsu.edu      |    tyler9648          |     Github Master, Backend Lead
 | Lane Maimone        |    lmaimone@mail.sfsu.edu     |    lanemaimone        |     Backend Lead
 
