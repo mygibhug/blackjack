@@ -1,4 +1,4 @@
-# CSC648-spring22-SectionName-teamX Repository
+# CSC648-spring22-SectionName-team05 Repository
 
 ## Application URL: 
 
@@ -17,8 +17,11 @@
 3. Fill out the table below
 
 
-| Student Name | Student Email | GitHub Username | Stundet's role 
-|    :---:     |     :---:     |     :---:       |
-| John Doe     | jdoe@mail.sfsu.edu              |   jdoe              |  Team Leader
+| Student Name        |      Student Email            |    GitHub Username    |   Stundet's role 
+|    :---:            |          :---:                |     :---:             |
+| Seng Maw            |    smaw@mail.sfsu.edu         |    mygibhug           |     Team Leader
+| Pritam Gautam       |    pgautam@sfsu.edu           |    pgautam54          |     Frontend Lead
+| Tyler Hsieh         |    thsieh3@mail.sfsu.edu      |    tyler9648          |     Github Master, Backend Lead
+| Lane Maimone        |    lmaimone@mail.sfsu.edu     |    lanemaimone        |     Backend Lead
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
