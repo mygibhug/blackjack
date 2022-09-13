@@ -43,7 +43,7 @@
             <div class="container">
               <p1>Tyler</p1>
 
-              <p><a href = "aboutTyler.html"><button class="button">Click here to find more</button></a></p>
+              <p><button class="button">Click here to find more</button></p>
             </div>
           </div>
         </div>
