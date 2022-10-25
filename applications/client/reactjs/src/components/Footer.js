@@ -1,6 +1,7 @@
 import React from 'react';
 import { CDBFooter, CDBFooterLink, CDBBox, CDBBtn, CDBIcon } from 'cdbreact';
-// import Aboutus from './pages/aboutus';
+import {BrowserRouter as  Router, Route,Routes, Link, Redirect } from "react-router-dom";
+import Aboutus from '../pages/aboutus';
 
 class Footer extends React.Component {
     render(){
@@ -34,7 +35,8 @@ class Footer extends React.Component {
             </p>
             <CDBBox flex="column" style={{ cursor: 'pointer', padding: '0' }}>
               
-              <CDBFooterLink href="/">About Us</CDBFooterLink>
+              {/* <CDBFooterLink href="aboutus">About Us</CDBFooterLink> */}
+              <Link to="/aboutus">About Us</Link>
               
               
             </CDBBox>
