@@ -8,16 +8,19 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.2",
     "cdbreact": "^1.5.3",
+    "firebase": "^9.12.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-playing-card": "^0.2.5",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "serve": "firebase emulators:start",
+    "lint": "next lint",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -40,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   }
 }
