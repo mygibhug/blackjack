@@ -1,12 +1,17 @@
 import React from 'react';
-// import "../assets/registration.css";
+import "../assets/registration.css";
+import {BrowserRouter as Router, Link} from 'react-router-dom';
+import imageR from "../assets/images/BBJ_log.png";
+
 
 function Registration(){
     return(
-        <div>
-            <div className="container">
-  
-    <h1 id="loginHeader">Registration</h1>
+      <div className = 'main'>
+      <div className ='overlay'></div>
+        <img src = {imageR} height = "100%" width ="100%" />
+            <div className="BodyR">
+              <div className="containerL">  
+    <h6 id="loginHeader">Registration</h6>
     <div id="error">
      
     </div>
@@ -52,28 +57,25 @@ function Registration(){
         />
       </div>
       <div>
-        <input
-          type="button"
-          defaultValue="Register"
-          id="loginSubmit"
-          onclick="validate()"
-        />
+      <button>Register</button>
       </div>
     </form>
     <div className="new">
-      <h3>Already have an Account?</h3>
+      <h8>Already have an Account?</h8>
     </div>
     <div className="createAccount">
-      <h2>
+      <h7>
         {" "}
-        <a id="createAccountLink" href="login.html">
-          <p>Login</p>
-        </a>
-      </h2>
+        <Link to="/login">
+          <button>login</button>
+        </Link>
+      </h7>
     </div>
 
   </div>
         </div>
+        </div>
+       
     )
 }
 
