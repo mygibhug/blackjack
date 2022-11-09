@@ -14,6 +14,7 @@ import AboutLane from "./pages/aboutLane";
 import AboutNate from "./pages/aboutNate";
 import AboutSneha from "./pages/aboutSneha";
 import AboutTyler from "./pages/aboutTyler";
+import Main from "./pages/main";
 
 
 
@@ -36,6 +37,7 @@ class App extends Component{
       <Route exact path="/aboutNate" element ={<AboutNate/>}/>
       <Route exact path="/aboutSneha" element ={<AboutSneha/>}/>
       <Route exact path="/aboutTyler" element ={<AboutTyler/>}/>
+      <Route exact path="/main" element ={<Main/>}/>
      
       
 

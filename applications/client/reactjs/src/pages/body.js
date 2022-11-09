@@ -1,7 +1,7 @@
 import React from "react";
 // import Card from 'react-playing-card';
-import videobg from '../assets/projectvideo.mp4';
 import image from '../assets/projectimage.jpeg';
+import {BrowserRouter as Router, Link} from 'react-router-dom';
 
 
 class Body extends React.Component {
@@ -19,11 +19,10 @@ class Body extends React.Component {
                 <h1>Welcome to BabyBlackjack</h1> 
                 {/* < button className="signup" href="#link">Signup</button>
                 < button className="signin" href="#link">Signin</button> */}
-
-
-
-
             </div>
+            <Link to="/main">
+          <button className="playbutton">Play as guest</button>
+        </Link>
              
             {/* <Card rank="K" suit="S" /><Card rank="B" suit="S" /> */}
 
