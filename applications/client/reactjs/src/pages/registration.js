@@ -14,7 +14,7 @@ const [emailReg, setEmailReg] = useState("");
 //const [email, setEmail] = useState("");
 
  const register = () => {
-    Axios.post("http://localhost:3001/registration", {
+    Axios.post("https://us-central1-csc-648-group5-babyblackjack.cloudfunctions.net/api/registration", {
       username: usernameReg,
       email: emailReg,
       password: passwordReg,
@@ -52,7 +52,7 @@ const [emailReg, setEmailReg] = useState("");
       </div>
       <div>
         <input
-          type="text"
+          type="email"
           name="email"
           id="email"
           className="entryField"

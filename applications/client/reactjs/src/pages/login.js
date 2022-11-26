@@ -18,7 +18,7 @@ function Login(){
  const [loginStatus, setLoginStatus] = useState("");
 
  const login = () => {
-    Axios.post("http://localhost:3000/login", {
+    Axios.post("https://us-central1-csc-648-group5-babyblackjack.cloudfunctions.net/api/login", {
       email: email,
       password: password,
     }).then((response) => {
