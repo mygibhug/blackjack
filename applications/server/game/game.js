@@ -4,7 +4,7 @@ var playerSum = 0;
 var dealerAces = 0;
 var playerAces = 0;
 
-var playerWallet = 0;
+var playerWallet = 1000;
 var playerBet = 0;
 
 var hidden;
@@ -17,6 +17,9 @@ var canSplit = false;
 var canDouble = true;
 var cont= true;
 var hitCount = true;
+var playerNatural = false;
+var dealerNatural = false;
+var blackJackPush = false;
 
 window.onload = function () {
     buildDeck();
@@ -48,8 +51,6 @@ function shuffleDeck(){
 }
 
 function startGame(){
-    playerWallet=1000;
-
        // playerBet = document.getElementById("bet").submit();
     hidden = deck.pop();
     dealerSum += getValue(hidden);
@@ -73,7 +74,18 @@ function startGame(){
         document.getElementById("your-cards").append(cardImg);
         document.getElementById("your-sum").innerText = playerSum;
     }
-    
+    if((playerSum==21) && (dealerSum !=21)){
+        playerNatural = true;
+        stay();
+    }
+    else if((playerSum==21) && (dealerSum == 21)){
+        blackJackPush = true;
+        stay();
+    }
+    else if((dealerSum==21) && (playerSum !=21)){
+        dealerNatural = true;
+        stay();
+    }
     document.getElementById("hit").addEventListener("click", hit);
     document.getElementById("stay").addEventListener("click", stay);
 
@@ -96,6 +108,10 @@ function hit(){
 
     if(reduceAce(playerSum,playerAces)> 21){
         canHit=false;
+        stay();
+    }
+    if(playerSum==21){
+        stay()
     }
 
 }
@@ -116,24 +132,30 @@ function stay(){
     }
 
     let message = "";
-    if(playerSum > 21){
+    if(playerSum > 21 && dealerNatural!=21){
         message= "You Lose!";
     }
 
-    else if (dealerSum > 21){
+    else if (dealerSum > 21 && playerNatural!=21){
         message= "You Win!";
     }
 
-    else if (playerSum==dealerSum){
+    else if (playerSum==dealerSum && blackJackPush!=true){
         message="A Push!";
     }
 
-    else if (playerSum>dealerSum){
+    else if (playerSum>dealerSum && playerNatural!=true){
         message= "You Win!";
     }
 
-    else if (playerSum<dealerSum){
+    else if (playerSum<dealerSum && dealerNatural!=true){
         message= "You Lose!";
+    }
+    else if (playerNatural==true){
+        message="Blackjack Baby!";
+    }
+    else if (dealerNatural==true){
+        message="Hey it's not the dealer's fault- it's the house's!"
     }
 
     document.getElementById("results").innerText = message;
@@ -171,6 +193,6 @@ function reduceAce(playerSum,playerAces){
     return playerSum;
 }
 
-//function nextround(){
+function playAgain(){
 
-//}
+}
