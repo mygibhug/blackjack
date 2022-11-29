@@ -72,6 +72,7 @@ function startGame() {
         dealerSum += getValue(card);
         dealerAces += ace(card);
         document.getElementById("dealer-cards").append(cardImg);
+        dealerSum = reduceAce(dealerSum,dealerAces);
     }
 
     //Player related code for cards and player sum
@@ -81,6 +82,8 @@ function startGame() {
         cardImg.src = "./cards/" + card + ".png";
         playerSum += getValue(card);
         playerAces += ace(card);
+        playerSum = reduceAce(playerSum,playerAces);
+
         document.getElementById("your-cards").append(cardImg);
         document.getElementById("your-sum").innerText = playerSum;
     }
@@ -151,31 +154,40 @@ function stay() {
     }
 
     let message = "";
-    if (playerSum > 21 && dealerNatural != true) {
+    if (playerSum > 21) {
         message = "You Lose!";
     }
 
-    else if (dealerSum > 21 && playerNatural !=true) {
+    else if (dealerSum > 21) {
         message = "You Win!";
         playerWallet = win(false,playerWallet,playerBet);
         document.getElementById("playerWallet").innerText = playerWallet;
     }
 
-    else if (playerSum == dealerSum && blackJackPush != true) {
+    else if((dealerSum>playerSum)&&(dealerNatural!=true)){
+        message = "You Lose!";
+    }
+
+    else if ((playerSum == dealerSum) && (blackJackPush != true)) {
         message = "A Push!";
     }
 
-    else if (playerSum > dealerSum && playerNatural != true) {
+    else if(blackJackPush==true){
+        message = "A Push!";
+    }
+
+    else if ((playerSum > dealerSum) && (playerSum < 21)) {
         message = "You Win!";
         playerWallet = win(playerNatural,playerWallet,playerBet);
         document.getElementById("playerWallet").innerText = playerWallet;
 
     }
 
-    else if (playerSum < dealerSum && dealerNatural != true) {
+    else if((dealerSum==21)&&(dealerNatural!=true)){
         message = "You Lose!";
     }
-    else if (playerNatural == true) {
+
+    else if ((playerNatural == true && dealerSum<21)  || (dealerSum>21 && playerNatural == true)) {
         message = "Blackjack Baby!";
         playerWallet = win(playerNatural,playerWallet,playerBet);
         document.getElementById("playerWallet").innerText = playerWallet;
@@ -212,11 +224,14 @@ function ace(card) {
 }
 
 function reduceAce(playerSum, playerAces) {
-
-    while (playerSum > 21 && playerAces > 0) {
-        playerSum -= 10;
-        playerAces -= 1;
+    if(playerAces==2){
+        playerSum -=10;
     }
+
+    // while ((playerSum > 21) && (playerAces > 0)) {
+    //     playerSum -= 10;
+    //     playerAces -= 1;
+    // }
 
     return playerSum;
 }
