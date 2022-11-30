@@ -32,16 +32,16 @@ function buildDeck() {
     let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     let types = ["C", "D", "H", "S"];
     deck = [];
-    decks = [];
-
-    for (let i = 0; i < types.length; i++) {
-        for (let j = 0; j < values.length; j++) {
-            deck.push(values[j] + "-" + types[i]);
+    var nDecks = 8
+    for (let k = 0; k < nDecks; k++) {
+        for (let i = 0; i < types.length; i++) {
+            for (let j = 0; j < values.length; j++) {
+                deck.push(values[j] + "-" + types[i]);
+            }
         }
     }
-
+    return deck;
 }
-
 function shuffleDeck() {
     for (let i = 0; i < deck.length; i++) {
         let j = Math.floor(Math.random() * deck.length);
@@ -49,12 +49,27 @@ function shuffleDeck() {
         deck[i] = deck[j];
         deck[j] = temp;
     }
+    return deck;
 }
 
 //Most of the code for the game is written here.
 function startGame() {
     //while(playAgain){
     // playerBet = document.getElementById("bet").submit();
+    var start = false;
+   // while(start==false){
+        document.getElementById("minimum").addEventListener("click", updateBet);
+        document.getElementById("playerBet").innerText = playerBet;
+        document.getElementById("playerWallet").innerText = playerWallet;
+        var startButton = document.getElementById("start");
+       // if(playerBet >=10){
+         //   startButton.disable=false;
+           start = document.getElementById("start").addEventListener("click", startEvent);
+        //}
+        //else{
+          //  startButton.disable=true;
+        //}
+    //}
     hidden = deck.pop();
     dealerSum += getValue(hidden);
     dealerAces += ace(hidden);
@@ -276,4 +291,9 @@ function doubleDown(){
     document.getElementById("playerBet").innerText = playerBet;
     document.getElementById("playerWallet").innerText = playerWallet;
 
+}
+
+function startEvent(){
+    start=true;
+    return start;
 }
