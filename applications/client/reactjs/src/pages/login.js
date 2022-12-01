@@ -14,9 +14,11 @@ function Login(){
  const [username, setUsername] = useState("");
  const [password, setPassword] = useState("");
  const [email, setEmail] = useState("");
+ const [role, setRole] = useState("");
 
  const [loginStatus, setLoginStatus] = useState("");
 
+Axios.defaults.withCredentials = true;
  const login = () => {
     Axios.post("https://us-central1-csc-648-group5-babyblackjack.cloudfunctions.net/api/login", {
       email: email,
@@ -29,6 +31,15 @@ function Login(){
       }
    });
  };
+
+ useEffect(() => { Axios.get("https://us-central1-csc-648-group5-babyblackjack.cloudfunctions.net/api/login").then((response) => {
+
+    if (response.data.loggedIn == true)
+        {
+            setRole(response.data.user[0].role);
+            }
+      });
+    }, []);
 
     return(
         <div>
@@ -67,6 +78,7 @@ function Login(){
               </div>
            </div>
         </div>
+
       </div>
       
     );
