@@ -1,21 +1,31 @@
+
+//block for handeling decks and hands of player(s) and dealer
 var cards = [];
 var suits = ["spades", "hearts", "clubs", "diamonds"];
 var numb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 var playerHand = [];
 var dealerHand = [];
 
+//card count will keep track of number of cards that came out before the 
+//game has to make a new deck... similar to the casino style
 var cardCount = 0;
+
+//we start new players with $1000 in order to give them 100 chances by
+//default.
 var playerWallet = 1000;
+
 var endplay   = false;
 
-var message = document.getElementById('message');
+//these are the variables that are outputed to the browser screen.
+var prompt = document.getElementById('prompt');
 var output = document.getElementById('output');
 var dealerHolder = document.getElementById('dealerHolder');
 var playerHolder = document.getElementById('playerHolder');
-var pValue = document.getElementById('pValue');
-var dValue = document.getElementById('dValue');
+var playerScoreOutput = document.getElementById('playerScoreOutput');
+var dealerScoreOutput = document.getElementById('dealerScoreOutput');
 var dollarValue = document.getElementById('dollars');
 
+//this will make the players have to increase their bet in order to play the game.
 document.getElementById('mybet').onchange = function () {
     if (this.value < 0) {
         this.value = 0;
@@ -25,13 +35,15 @@ document.getElementById('mybet').onchange = function () {
     }
 }
 
+//this is the code block that actually builds the decks and sets the values to
+//their respected css cards 
 for (s in suits) {
     var suit = suits[s][0].toUpperCase();
     var bgcolor = (suit == "S" || suit == "C") ? "black" : "red";
     for (n in numb) {
-        //output.innerHTML += "<span style='color:" + bgcolor + "'>&" + suits[s] + ";" + numb[n] + "</span> ";
         var cardValue = (n > 9) ? 10 : parseInt(n) + 1;
-        //var cardValue = 1;
+        //card suits will be read in with this block here in order 
+        //to make them an object.
         var card = {
             suit: suit,
             icon: suits[s],
@@ -43,6 +55,8 @@ for (s in suits) {
     }
 }
 
+
+
 function Start() {
     console.log("Game Started :)");
     shuffleDeck(cards);
@@ -51,33 +65,43 @@ function Start() {
     dollarValue.innerHTML = playerWallet;
 }
 
+//here below this line I would like to make 
+//a function called end game in order for us 
+//to be able to end the game and go to another
+//screen -> like a log out or something.
+
+//we use dealNew in order to reset the round. 
 function dealNew() {
-    dValue.innerHTML = "?";
+    dealerScoreOutput.innerHTML = "?";
     playerHand = [];
     dealerHand = [];
     dealerHolder.innerHTML = "";
     playerHolder.innerHTML = "";
-    var betvalue = document.getElementById('mybet').value;
-    playerWallet = playerWallet - betvalue;
+    var bet = document.getElementById('mybet').value;
+    playerWallet = playerWallet - bet;
     document.getElementById('dollars').innerHTML = playerWallet;
     document.getElementById('myactions').style.display = 'block';
-    message.innerHTML = "Get up to 21 and beat the dealer to win.<br>Current bet is $" + betvalue;
+    prompt.innerHTML = "Current bet is $" + bet;
     document.getElementById('mybet').disabled = true;
     document.getElementById('maxbet').disabled = true;
     deal();
     document.getElementById('btndeal').style.display = 'none';
 }
 
+//this block will recreate the deck and reset the stack of 
+//cards for the player and dealer to use. This is integral.
 function redeal() {
     cardCount++;
     if (cardCount > 40) {
         console.log("NEW DECK");
         shuffleDeck(cards);
         cardCount = 0;
-        message.innerHTML = "New Shuffle";
+        prompt.innerHTML = "New Shuffle";
     }
 }
 
+//hands out the first two cards to all of the players
+//and the dealer in order to make the game start.
 function deal() {
     for (x = 0; x < 2; x++) {
         dealerHand.push(cards[cardCount]);
@@ -90,8 +114,8 @@ function deal() {
         playerHolder.innerHTML += cardOutput(cardCount, x);
         redeal();
     }
-    var playerScore = checktotal(playerHand);
-    var dealerScore = checktotal(dealerHand);
+    var playerScore = updateTotal(playerHand);
+    var dealerScore = updateTotal(dealerHand);
     if (playerScore == 21 && playerHand.length == 2) {
         endRound();
     }
@@ -99,42 +123,45 @@ function deal() {
       //  endRound();
     //}
     
-    pValue.innerHTML = playerScore;
+    playerScoreOutput.innerHTML = playerScore;
 
 }
 
+//this is how we map the cards from the stack to their
+//css counterpart.
 function cardOutput(n, x) {
     var typeCard = (x > 0) ? x * 60 + 100 : 100; 
     return '<div class="icard ' + cards[n].icon + '" style="left:' + typeCard + 'px;">  <div class="top-card suit">' + cards[n].cardnum + '<br></div>  <div class="content-card suit"></div>  <div class="bottom-card suit">' + cards[n].cardnum +
         '<br></div> </div>';
 }
 
+//this button allows players to go all in 
 function maxbet() {
-    document.getElementById('mybet').value = playerWallet;
-    message.innerHTML = "Bet changed to $" + playerWallet;
+    document.getElementById('mybet').value = 100;
 }
 
+//playable switch function in order to make sure that the game is playable.
 function cardAction(a) {
     console.log(a);
     switch (a) {
         case 'hit':
-            addCard(); //add another card to players hand
+            hit(); //add another card to players hand.
             break;
         case 'hold':
-            endRound(); //end round and update the payout function
+            endRound(); //end round and update the payout function.
             break;
-        case 'double':
-            var betvalue = parseInt(document.getElementById('mybet').value);
-            if ((playerWallet - betvalue) < 0) {
-                betvalue = betvalue + playerWallet;
+        case 'double': //the good ole fashion double down function. 
+            var bet = parseInt(document.getElementById('mybet').value);
+            if ((playerWallet - bet) < 0) {
+                bet = bet + playerWallet;
                 playerWallet = 0;
             } else {
-                playerWallet = playerWallet - betvalue;
-                betvalue = betvalue * 2;
+                playerWallet = playerWallet - bet;
+                bet = bet * 2;
             }
             document.getElementById('dollars').innerHTML = playerWallet;
-            document.getElementById('mybet').value = betvalue;
-            addCard(); 
+            document.getElementById('mybet').value = bet;
+            hit(); 
             endRound(); 
             break;
         default:
@@ -143,18 +170,20 @@ function cardAction(a) {
     }
 }
 
-function addCard() {
+function hit() {
     playerHand.push(cards[cardCount]);
     playerHolder.innerHTML += cardOutput(cardCount, (playerHand.length - 1));
     redeal();
-    var rValu = checktotal(playerHand);
-    pValue.innerHTML = rValu;
+    var rValu = updateTotal(playerHand);
+    playerScoreOutput.innerHTML = rValu;
     if (rValu > 21) {
-        message.innerHTML = "busted!";
+        prompt.innerHTML = "busted!";
         endRound();
     }
 }
 
+//endRound will reset all of the game critical peices and will update the 
+//player wallet with the winnings/losings.
 function endRound() {
     endplay = true;
     document.getElementById('cover').style.display = 'none';
@@ -162,71 +191,78 @@ function endRound() {
     document.getElementById('btndeal').style.display = 'block';
     document.getElementById('mybet').disabled = false;
     document.getElementById('maxbet').disabled = false;
-    message.innerHTML = "Game Over<br>";
+    prompt.innerHTML = "Game Over<br>";
     var payoutJack = 1;
-    var dealervalue = checktotal(dealerHand);
-    dValue.innerHTML = dealervalue;
+    var dealervalue = updateTotal(dealerHand);
+    dealerScoreOutput.innerHTML = dealervalue;
 
     while (dealervalue < 17) {
         dealerHand.push(cards[cardCount]);
         dealerHolder.innerHTML += cardOutput(cardCount, (dealerHand.length - 1));
         redeal();
-        dealervalue = checktotal(dealerHand);
-        dValue.innerHTML = dealervalue;
+        dealervalue = updateTotal(dealerHand);
+        dealerScoreOutput.innerHTML = dealervalue;
     }
 
     
-    var playerScore = checktotal(playerHand);
+    var playerScore = updateTotal(playerHand);
     if (playerScore == 21 && playerHand.length == 2) {
-        message.innerHTML = "Blackjack Baby!!! ";
+        prompt.innerHTML = "Blackjack Baby!!! ";
         payoutJack = 1.5;
         
     }
+    //below is some code that I was trying to use in order to deal with a dealer who gets dealt
+    //21 in the first two cards.
+
     //else if (dealerScore == 21 && playerHand.length ==2){
-      //  message.innerHTML = "Hey it's not the Dealers Fault. It's the house's. ";
+      //  prompt.innerHTML = "Hey it's not the Dealers Fault. It's the house's. ";
     //}
     //else if ((dealerScore == 21 && playerHand.length ==2) && (playerScore == 21 && playerHand.length ==2)){
-       // message.innerHTML = "Wow, that doesn't happen everyday. A ";
+       // prompt.innerHTML = "Wow, that doesn't happen everyday. A ";
     //}
 
-    var betvalue = parseInt(document.getElementById('mybet').value) * payoutJack;
+
+    var bet = parseInt(document.getElementById('mybet').value) * payoutJack;
     if ((playerScore < 22 && dealervalue < playerScore) || (dealervalue > 21 && playerScore < 22)) {
-        message.innerHTML += '<span style="color:green;">You WIN: $' + betvalue + '</span>';
-        playerWallet = playerWallet + (betvalue * 2);
+        prompt.innerHTML += '<span style="color:green;">You WIN: $' + bet + '</span>';
+        playerWallet = playerWallet + (bet * 2);
         
     } else if (playerScore > 21) {
-        message.innerHTML += '<span style="color:red;">Dealer Wins! You lost $' + betvalue + '</span>';
+        prompt.innerHTML += '<span style="color:red;">Dealer Wins! You lost $' + bet + '</span>';
         
     } else if (playerScore == dealervalue) {
-        message.innerHTML += '<span style="color:blue;">PUSH!</span>';
-        playerWallet = playerWallet + betvalue;
+        prompt.innerHTML += '<span style="color:blue;">PUSH!</span>';
+        playerWallet = playerWallet + bet;
         
     } else {
-        message.innerHTML += '<span style="color:red;">Dealer Wins! You lost $' + betvalue + '</span>';
+        prompt.innerHTML += '<span style="color:red;">Dealer Wins! You lost $' + bet + '</span>';
         
     }
-    pValue.innerHTML = playerScore;
+    playerScoreOutput.innerHTML = playerScore;
     dollarValue.innerHTML = playerWallet;
     newDeal();
 }
 
-function checktotal(arr) {
-    var rValue = 0;
+//this will show what the score of the player and the dealer.
+function updateTotal(arr) {
+    var cardV = 0;
     var aceAdjust = false;
     for (var i in arr) {
         if (arr[i].cardnum == 'A' && !aceAdjust) {
             aceAdjust = true;
-            rValue = rValue + 10;
+            cardV = cardV + 10;
         }
-        rValue = rValue + arr[i].cardvalue;
+        cardV = cardV + arr[i].cardvalue;
     }
 
-    if (aceAdjust && rValue > 21) {
-        rValue = rValue - 10;
+    if (aceAdjust && cardV > 21) {
+        cardV = cardV - 10;
     }
-    return rValue;
+    return cardV;
 }
 
+
+//shuffles the made deck in order to make the game run like casino blackjack.
 function shuffleDeck(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -237,6 +273,7 @@ function shuffleDeck(array) {
     return array;
 }
 
+//will pop the card from the stack and assign the color, suit, and value for the card.
 function outputCard() {
     output.innerHTML += "<span style='color:" + cards[cardCount].bgcolor + "'>" + cards[cardCount].cardnum + "&" + cards[cardCount].icon + ";</span>  ";
 }
