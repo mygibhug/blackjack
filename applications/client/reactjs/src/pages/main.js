@@ -1,13 +1,16 @@
 import React from "react";
 import videobg from "../assets/gamevideo.mov";
 import "../App.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Logout from "../components/logout";
+
 
 
 
 function Main(){
     return(
         <>
+        <div><Logout /></div>
         <div className = "main">
             <div className ='overlay'></div>
 
