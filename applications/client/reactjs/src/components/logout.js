@@ -21,7 +21,7 @@ function NavbarLogout() {
             
            
             <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/">Logout</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 
               </NavDropdown.Item>
