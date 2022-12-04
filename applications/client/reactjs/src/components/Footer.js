@@ -11,9 +11,7 @@ class Footer extends React.Component {
       <CDBBox display="flex" flex="column" className="mx-auto py-2" style={{ width: '90%' }}>
         <CDBBox display="flex" justifyContent="between" className="flex-wrap">
           <CDBBox>
-            {/* <a href="/" className="d-flex align-items-center p-3 text-dark">
-              <span className="ml-3 h5 font-weight-bold">Our community</span>
-            </a> */}
+          
             <p className="my-1" style={{ width: '250px' }}>
               Feel free to follow us
             </p>
@@ -35,9 +33,8 @@ class Footer extends React.Component {
             </p>
             <CDBBox flex="column" style={{ cursor: 'pointer', padding: '0' }}>
               
-              {/* <CDBFooterLink href="aboutus">About Us</CDBFooterLink> */}
+             
               <Link to="/aboutus">About Us</Link>
-              
               
             </CDBBox>
           </CDBBox>
@@ -68,3 +65,5 @@ class Footer extends React.Component {
 }
 }
 export default Footer;
+
+//Footer is all ready to push
