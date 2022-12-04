@@ -9,9 +9,7 @@ function Registration(){
 const [usernameReg, setUsernameReg] = useState("");
 const [passwordReg, setPasswordReg] = useState("");
 const [emailReg, setEmailReg] = useState("");
-//const [username, setUsername] = useState("");
-//const [password, setPassword] = useState("");
-//const [email, setEmail] = useState("");
+
 
  const register = () => {
     Axios.post("https://us-central1-csc-648-group5-babyblackjack.cloudfunctions.net/api/registration", {
@@ -114,3 +112,5 @@ const [emailReg, setEmailReg] = useState("");
 }
 
 export default Registration;
+
+//registration is all ready to go
