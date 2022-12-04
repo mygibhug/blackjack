@@ -4,16 +4,13 @@ import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-
 function Main(){
     return(
         <>
         <div className = "main">
             <div className ='overlay'></div>
 
-            <video className ="video" src={videobg} autoPlay loop/>
-
-            
+            <video className ="video" src={videobg} autoPlay loop/>            
 
             <button className ="playbutton">Play Now</button>
             
@@ -27,17 +24,12 @@ function Main(){
             </details>
             </div>
 
-
-
-
         </div>
-
-
-
-
 
 
         </>
     )
 }
 export default Main;
+
+//all set to push
