@@ -1,5 +1,5 @@
-
-import React, {Component} from "react";
+import Axios from 'axios';
+import React, {Component, useEffect, useState } from "react";
 import "./App.css";
 import {BrowserRouter as  Router, Route,Routes, Link, Redirect } from "react-router-dom";
 
@@ -14,7 +14,8 @@ import AboutLane from "./pages/aboutLane";
 import AboutNate from "./pages/aboutNate";
 import AboutSneha from "./pages/aboutSneha";
 import AboutTyler from "./pages/aboutTyler";
-
+import Main from "./pages/main";
+import Game from "./pages/game";
 
 
 
@@ -36,7 +37,8 @@ class App extends Component{
       <Route exact path="/aboutNate" element ={<AboutNate/>}/>
       <Route exact path="/aboutSneha" element ={<AboutSneha/>}/>
       <Route exact path="/aboutTyler" element ={<AboutTyler/>}/>
-     
+      <Route exact path="/main" element ={<Main/>}/>
+      <Route exact path="/game" element ={<Game/>}/>
       
 
       </Routes>
