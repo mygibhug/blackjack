@@ -1,11 +1,8 @@
 import React from 'react';
 import Body from "./body";
 import Navbar from '../components/Footer';
-// import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
 import Footer from '../components/Navbar';
-
-
-
 
 import "../App.css";
 
@@ -21,12 +18,11 @@ function Home() {
 
   </div>
 
-
- 
   );
 }
 
 export default Home;
 
+//ready to push
 
 
