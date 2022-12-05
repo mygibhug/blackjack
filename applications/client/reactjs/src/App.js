@@ -15,7 +15,7 @@ import AboutNate from "./pages/aboutNate";
 import AboutSneha from "./pages/aboutSneha";
 import AboutTyler from "./pages/aboutTyler";
 import Main from "./pages/main";
-
+import Game from "./pages/game";
 
 
 
@@ -38,7 +38,7 @@ class App extends Component{
       <Route exact path="/aboutSneha" element ={<AboutSneha/>}/>
       <Route exact path="/aboutTyler" element ={<AboutTyler/>}/>
       <Route exact path="/main" element ={<Main/>}/>
-     
+      <Route exact path="/game" element ={<Game/>}/>
       
 
       </Routes>
