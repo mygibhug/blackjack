@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Baby Black Jack</title>
+        <link rel="stylesheet" href="gameboard.css">
+        
+        <script src="game.js"></script>
+    </head>
+
+    <body>
+        <link rel="stylesheet" href="gameboard.css">
+        <h2>Cursed Dealer: <span id="dealer-sum"></span></h2>
+        <div id="dealer-cards">
+            <img id="hidden" src="./cards/BACK.png">
+        
+        </div>
+        
+        <h2>You: <span id="your-sum"></span></h2>
+        <div id="your-cards"></div>
+        <button id="start">Start</button>
+        <br>
+        
+        <button id="hit">Hit Me!</button>
+        <button id="stay">I'll Stay</button>
+        <button id="Double-Down">Double Me</button>
+        <p id="results"></p>
+
+        <div>
+        <h4> Bet: <span id="playerBet"></span></h4>
+        <h5>Wallet: $<span id="playerWallet"></span>
+            
+            <button id="minimum">minimum: $10</button></h5>
+        
+        </div>
+    </body>
+</html>
