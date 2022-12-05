@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 
-function Navbar1() {
+function NavbarLogout() {
   
         return(
  <div>
@@ -18,10 +18,14 @@ function Navbar1() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link className = "login" href="/login">login</Nav.Link>
-           
             
-            <Nav.Link href="/registration">signup</Nav.Link>
+           
+            <NavDropdown title="Menu" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -35,11 +39,4 @@ function Navbar1() {
     }
 
 
-export default Navbar1;
-
-
-
-
-
-
-
+export default NavbarLogout;
