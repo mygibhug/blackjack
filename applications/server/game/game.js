@@ -72,6 +72,7 @@ function Start() {
 
 //we use dealNew in order to reset the round. 
 function dealNew() {
+    console.log("dealNew()");
     dealerScoreOutput.innerHTML = "?";
     playerHand = [];
     dealerHand = [];
@@ -91,7 +92,10 @@ function dealNew() {
 //this block will recreate the deck and reset the stack of 
 //cards for the player and dealer to use. This is integral.
 function redeal() {
+    console.log("redeal()");
+
     cardCount++;
+    console.log("card count: " + cardCount);
     if (cardCount > 40) {
         console.log("NEW DECK");
         shuffleDeck(cards);
@@ -103,10 +107,13 @@ function redeal() {
 //hands out the first two cards to all of the players
 //and the dealer in order to make the game start.
 function deal() {
+console.log("deal()");
     for (x = 0; x < 2; x++) {
         dealerHand.push(cards[cardCount]);
+        console.log("displaying dealer card");
         dealerHolder.innerHTML += cardOutput(cardCount, x);
         if (x == 0) {
+        console.log("displaying cover");
             dealerHolder.innerHTML += '<div id="cover" style="left:100px;"></div>';
         }
         redeal();
@@ -165,7 +172,7 @@ function cardAction(a) {
             endRound(); 
             break;
         default:
-            console.log('done');
+            console.log('done'); //stay
             endRound(); 
     }
 }
@@ -185,6 +192,7 @@ function hit() {
 //endRound will reset all of the game critical peices and will update the 
 //player wallet with the winnings/losings.
 function endRound() {
+    console.log("endRound()");
     endplay = true;
     document.getElementById('cover').style.display = 'none';
     document.getElementById('myactions').style.display = 'none';

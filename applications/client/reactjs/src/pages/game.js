@@ -6,13 +6,21 @@ import { renderToString } from 'react-dom/server'
 function Game(){
 
 var cards = [];
+const refCards = useRef(new Array());
+
 var suits = ["spades", "hearts", "clubs", "diamonds"];
 var numb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 var playerHand = [];
+const refPlayerHand = useRef(new Array());
+
 var dealerHand = [];
+const refDealerHand = useRef(new Array());
 
 var cardCount = 0;
+var refCardCount = useRef(0);
+
 var playerWallet = 1000;
+var refPlayerWallet = useRef(1000);
 var endplay   = false;
 
 
@@ -24,8 +32,8 @@ var dealerHolder = useRef(null);
 
 
 var playerHolder = useRef(null);          //document.getElementById('playerHolder');
-var pValue = useRef(null);                //document.getElementById('pValue');
-var dValue = useRef(null);            //document.getElementById('dValue');
+var pValue = useRef("");                //document.getElementById('pValue');
+var dValue = useRef("");            //document.getElementById('dValue');
 var dollarValue = useRef(null);           //document.getElementById('dollars');
 
 var mybet = useRef(0);
@@ -42,6 +50,10 @@ var btndeal = useRef(null);
 var cover = useRef(null);
 //var coverStyleDisplay;
 
+var numOfPlayerCards = useRef(0);
+
+var numOfDealerCards = useRef(0);
+
 //var maxbet = useRef(null);
 
 //var myactions = useRef(initialValue);
@@ -55,16 +67,33 @@ const [coverStyleDisplay, setCoverStyleDisplay] = useState("");
 const [maxbetButtonDisabled, setmaxbetButtonDisabled] = useState(false);
 const [mybetInputDisabled, setmybetInputDisabled] = useState(false);
 
-const [dealerHolderCards, setDealerHolderCards] = useState("")
+var [dealerHolderCards, setDealerHolderCards] = useState("");
+var tempDealerHolderCards = "";
+
+//var [playerHolderCards, setPlayerHolderCards] = useState("");
+var playerHolderCards = useRef("");
+var tempPlayerHolderCards = "";
+//var tempPlayerHolderCards = useRef(null);
+
+var [playerAddedCards, setPlayerAddedCards] = useState("");
+
+useEffect(() => {
+console.log("useEffect() dealerHolderCards -> " + dealerHolderCards);
+},
+
+ []);
 
 function calculateMyBet(inputBet) {
 console.log("check this");
-    if (inputBet.value < 0) {
+    if (inputBet < 0) {
         mybet.current = 0;
+
     }
-    if (inputBet.value > playerWallet) {
-        mybet.current = playerWallet;
+    if (inputBet > refPlayerWallet.current) {
+    console.log("bet too big, is lowered");
+        mybet.current = refPlayerWallet.current;
     }
+    return mybet.current;
 }
 
 for (let s in suits) {
@@ -82,6 +111,7 @@ for (let s in suits) {
             cardvalue: cardValue
         }
         cards.push(card);
+        refCards.current.push(card);
     }
 }
 //console.log("maxBet button disabled: " + maxbetButtonDisabled);
@@ -91,22 +121,37 @@ const Start = () => {
     console.log("maxBet button disabled: " + maxbetButtonDisabled);
     console.log("maxBet button disabled should be: false");
     shuffleDeck(cards);
+    shuffleDeck(refCards.current);
     dealNew();
     setStartElStyleDisplay('none');
-    dollarValue.current = playerWallet;
+    dollarValue.current = refPlayerWallet.current;
 }
 
 function dealNew() {
+    //dollarValue.current = "?";
+    //shuffleDeck(cards);
     console.log("dealNew()");
     dValue.current = "?";
     playerHand = [];
+    refPlayerHand.current = [];
+    refDealerHand.current = [];
     dealerHand = [];
     dealerHolder.current = "";
-    setDealerHolderCards("");
+    numOfPlayerCards.current = 0;
+    numOfDealerCards.current = 0;
+
+
+    //console.log("calling setDealerHolderCards useState in dealNew(), this message should only pop up once per game");
+    //setDealerHolderCards("");
+    tempDealerHolderCards = "";
+    //tempPlayerHolderCards = "";
+
+
     playerHolder.current = "";
     var betvalue = mybet.current.value;
-    playerWallet = playerWallet - betvalue;
-    dollarValue.current = playerWallet;
+    console.log("bet value: " + betvalue);
+    refPlayerWallet.current = refPlayerWallet.current - betvalue;
+    dollarValue.current = refPlayerWallet.current;
     setmyactionsStyleDisplay('block');
     console.log("get up to 21 and beat the dealer to win msg");
     setMessage("Get up to 21 and beat the dealer to win.<br>Current bet is $" + betvalue);
@@ -121,10 +166,13 @@ function dealNew() {
 function redeal() {
 console.log("redeal()");
     cardCount++;
-    if (cardCount > 40) {
+    refCardCount.current++;
+    console.log("card count: " + refCardCount.current);
+    if (refCardCount.current > 40) {
         console.log("NEW DECK");
         shuffleDeck(cards);
-        cardCount = 0;
+        shuffleDeck(refCards.current);
+        refCardCount.current = 0;
         setMessage("New Shuffle");
     }
 }
@@ -133,21 +181,37 @@ function deal() {
 console.log("deal()");
 console.log("start of deal() maxBet button disabled: " + maxbetButtonDisabled);
     for (let x = 0; x < 2; x++) {
-        dealerHand.push(cards[cardCount]);
-        console.log(dealerHand);
-        setDealerHolderCards(cardOutput(cardCount, x));
+        dealerHand.push(cards[refCardCount.current]);
+        refDealerHand.current.push(cards[refCardCount.current]);
+        numOfDealerCards.current += 1;
+        console.log("numOfDealerCards: " + numOfDealerCards.current);
+        console.log(refDealerHand.current);
+        //setDealerHolderCards(cardOutput(cardCount, x));
+
+        tempDealerHolderCards += cardOutput(refCardCount.current, x);
         console.log("x (number of cards) = " + x);
+
+
         if (x == 0) {
             console.log("cover");
-            setDealerHolderCards.setState(dealerHolderCards + '<div id="cover" style="left:100px;"></div>');
+            //setDealerHolderCards(dealerHolderCards + '<div id="cover" style="left:100px;"></div>');
+            //dealerHolderCards += '<div id="cover" style="left:100px;"></div>';
+            tempDealerHolderCards += '<div id="cover" style="left:100px;"></div>';
+            //console.log(dealerHolderCards);
+            console.log(tempDealerHolderCards);
         }
         redeal();
-        playerHand.push(cards[cardCount]);
-        playerHolder.current += cardOutput(cardCount, x);
+        playerHand.push(cards[refCardCount.current]);
+        refPlayerHand.current.push(cards[refCardCount.current]);
+        numOfPlayerCards.current++;
+        //playerHolder.current += cardOutput(cardCount, x);
+        tempPlayerHolderCards += cardOutput(refCardCount.current, x);
+
         redeal();
     }
-    var playerScore = checktotal(playerHand);
-    var dealerScore = checktotal(dealerHand);
+    playerHolderCards.current = tempPlayerHolderCards;
+    var playerScore = checktotal(refPlayerHand.current); //playerhand
+    var dealerScore = checktotal(refDealerHand.current);
     if (playerScore == 21 && playerHand.length == 2) {
         endRound();
     }
@@ -157,6 +221,8 @@ console.log("start of deal() maxBet button disabled: " + maxbetButtonDisabled);
 
     pValue.current = playerScore;
     console.log("end of deal() maxBet button disabled: " + maxbetButtonDisabled);
+    console.log("calling setDealerHolderCards useState");
+    setDealerHolderCards(tempDealerHolderCards);
 }
 
 function cardOutput(n, x) {
@@ -166,9 +232,14 @@ function cardOutput(n, x) {
 }
 
 function maxbet() {
+
+pValue.current = "";
+dValue.current = "";
     console.log("maxbet()");
-    mybet.current = playerWallet;
-    setMessage("Bet changed to $" + playerWallet);
+    //mybet.current = refPlayerWallet.current;
+    mybet.current = 100;//refPlayerWallet.current;
+    setMessage("Bet changed to $" + 100); //refPlayerWallet.current
+
 }
 
 function cardAction(a){
@@ -182,19 +253,19 @@ function cardAction(a){
             break;
         case 'double':
             var betvalue = parseInt(mybet.current);
-            if ((playerWallet - betvalue) < 0) {
-                betvalue = betvalue + playerWallet;
-                playerWallet = 0;
+            if ((refPlayerWallet.current - betvalue) < 0) {
+                betvalue = betvalue + refPlayerWallet.current;
+                refPlayerWallet.current = 0;
             } else {
-                playerWallet = playerWallet - betvalue;
+                refPlayerWallet.current = refPlayerWallet.current - betvalue;
                 betvalue = betvalue * 2;
             }
-            dollarValue.current = playerWallet;
+            dollarValue.current = refPlayerWallet.current;
             mybet.current = betvalue;
             addCard();
             endRound();
             break;
-        default:
+        default:    //stay
             console.log('done');
             endRound();
     }
@@ -202,14 +273,29 @@ function cardAction(a){
 
 function addCard() {
 console.log("addCard()");
+console.log("cardCount: " + cardCount);
+console.log("refCardCount: " + refCardCount.current);
+console.log("cards array: " + cards);
+console.log("numOfPlayerCards.current");
     playerHand.push(cards[cardCount]);
-    playerHolder.current += cardOutput(cardCount, (playerHand.length - 1));
+    //refPlayerHand.current.push(cards[cardCount]);
+    refPlayerHand.current.push(refCards.current[refCardCount.current]);
+    //playerHolder.current += cardOutput(cardCount, (playerHand.length - 1));
+    tempPlayerHolderCards += cardOutput(refCardCount.current, (numOfPlayerCards.current));
+    numOfPlayerCards.current++;
     redeal();
-    var rValu = checktotal(playerHand);
-    pValue.current = rValu;
+    var rValu = checktotal(refPlayerHand.current);
+    pValue.current += rValu;
     if (rValu > 21) {
         setMessage("busted!");
         endRound();
+    } else {
+    //console.log("call setPlayerHolderCards useState");
+    //setPlayerHolderCards(playerHolderCards + tempPlayerHolderCards);
+    //playerHolderCards.current += tempPlayerHolderCards;
+    console.log("playerHolderCards.current is: " + playerHolderCards.current);
+    //setDealerHolderCards(dealerHolderCards +tempDealerHolderCards);
+    setPlayerAddedCards(playerAddedCards + tempPlayerHolderCards);
     }
 }
 
@@ -224,19 +310,28 @@ function endRound() {
     console.log("maxBet button disabled = " + maxbetButtonDisabled);
     setMessage("Game Over<br>");
     var payoutJack = 1;
-    var dealervalue = checktotal(dealerHand);
+    var dealervalue = checktotal(refDealerHand.current);
     dValue.current = dealervalue;
 
-    while (dealervalue < 17) {
-        dealerHand.push(cards[cardCount]);
-        setDealerHolderCards(cardOutput(cardCount, (dealerHand.length - 1)));
+    while (dValue.current < 17) { //dealervalue
+        refDealerHand.current.push(cards[refCardCount.current]);
+        numOfDealerCards.current++;
+        //setDealerHolderCards(cardOutput(cardCount, (dealerHand.length - 1))); // also try =+ dealerHolderCards
+        console.log("dealerHand.length: " + refDealerHand.current - 1);
+        console.log("numOfDealerCards: " + numOfDealerCards.current);
+
+        tempDealerHolderCards += cardOutput(refCardCount.current, (numOfDealerCards.current - 1));
+        console.log("while dealervalue < 17, dealerHolderCards: " + tempDealerHolderCards); //dealerHolderCards
         redeal();
-        dealervalue = checktotal(dealerHand);
+        dealervalue = checktotal(refDealerHand.current);
         dValue.current = dealervalue;
+        //console.log("calling setDealerHolderCards useState");
+        //setDealerHolderCards(dealerHolderCards + tempDealerHolderCards)
     }
 
 
-    var playerScore = checktotal(playerHand);
+    var playerScore = checktotal(refPlayerHand.current);
+    console.log(refPlayerHand.current);
     if (playerScore == 21 && playerHand.length == 2) {
         setMessage("Blackjack Baby!!! ");
         payoutJack = 1.5;
@@ -249,25 +344,33 @@ function endRound() {
        // message.innerHTML = "Wow, that doesn't happen everyday. A ";
     //}
 
-    var betvalue = parseInt(mybet.current) * payoutJack;
+    var betvalue = parseInt(mybet.current.value) * payoutJack;
+    console.log("value of betvalue: " + betvalue);
     if ((playerScore < 22 && dealervalue < playerScore) || (dealervalue > 21 && playerScore < 22)) {
         setMessage(message + '<span style="color:green;">You WIN: $' + betvalue + '</span>');
-        playerWallet = playerWallet + (betvalue * 2);
+        refPlayerWallet.current = refPlayerWallet.current + (betvalue * 2);
 
     } else if (playerScore > 21) {
         setMessage(message + '<span style="color:red;">Dealer Wins! You lost $' + betvalue + '</span>');
 
     } else if (playerScore == dealervalue) {
         setMessage(message + '<span style="color:blue;">PUSH!</span>');
-        playerWallet = playerWallet + betvalue;
+        refPlayerWallet.current = refPlayerWallet.current + betvalue;
 
     } else {
         setMessage(message + '<span style="color:red;">Dealer Wins! You lost $' + betvalue + '</span>');
 
     }
+    console.log("betvalue: " + betvalue);
     pValue.current = playerScore;
-    dollarValue.current = playerWallet;
-    dealNew();
+    dollarValue.current = refPlayerWallet.current;
+    //dealNew();
+            console.log("calling setDealerHolderCards useState");
+            setDealerHolderCards(dealerHolderCards + tempDealerHolderCards);
+
+            //console.log("calling setPlayerHolderCards useState");
+            //setPlayerHolderCards(playerHolderCards + tempPlayerHolderCards);
+            playerHolderCards.current += tempPlayerHolderCards
 }
 
 function checktotal(arr) {
@@ -288,6 +391,7 @@ function checktotal(arr) {
 }
 
 function shuffleDeck(array) {
+console.log("shuffling deck of " + array.length + " cards");
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
@@ -315,10 +419,11 @@ function shuffleDeck(array) {
             </div>
             <div ref={output} id="output">
               <div id="cards">
-                Cursed Dealer: <span className="dValue" ref={dValue}/>
+                Cursed Dealer: <span className="dValue" ref={dValue} dangerouslySetInnerHTML={{__html: dValue.current}}/>
                 <div id="dealerHolder" dangerouslySetInnerHTML={{__html: dealerHolderCards}}/>
-                Player: <span id="pValue" />
-                <div id="playerHolder" />
+                Player: <span className="pValue" ref={pValue} dangerouslySetInnerHTML={{__html: pValue.current}} />
+
+                <div id="playerHolder" dangerouslySetInnerHTML={{__html: playerHolderCards.current + playerAddedCards}}/>
               </div>
               <div id="myactions" style={{display: myactionsStyleDisplay}}>
                 <button id="btnstay" type="button" onClick={() => {cardAction('stay');}} className="btn">stay</button>
@@ -326,9 +431,9 @@ function shuffleDeck(array) {
                 <button id="btndouble" type="button" onClick={() => {cardAction('double');}} className="btn">Double</button>
               </div>
               <div id="deal">
-                <button ref={btndeal} style={{display: btndealStyleDisplay}} type="button" onClick={() => {dealNew()}} className="btn">Play Again?</button>
+                <button ref={btndeal} style={{display: btndealStyleDisplay}} type="button" onClick={() => {setPlayerAddedCards(""); dealNew(); }} className="btn">Play Again?</button>
               </div>
-              <div className="Wallet">Wallet: $<span ref={dollarValue}>1000</span>
+              <div className="Wallet">Wallet: $<span ref={dollarValue}>{renderToString(refPlayerWallet.current)}</span>
                 <br />Bet: $<input type="number" ref={mybet} disabled={mybetInputDisabled} defaultValue={10} min={10} max={100}
                 onChange={(e) => {
                 calculateMyBet(e.target.value);
