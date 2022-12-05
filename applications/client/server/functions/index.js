@@ -97,7 +97,7 @@ app.post('/login', (req, res) => {
 
          } else {
          console.log("User doesn't exist/invalid login");
-             res.send({ message: "User doesn't exists"});
+             res.send({ message: ""});
 
          }
 
