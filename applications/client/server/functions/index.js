@@ -90,14 +90,14 @@ app.post('/login', (req, res) => {
             console.log("Valid login");
             req.session.user = result;
             console.log(req.session.user);
-            res.send( result);
+            res.send({message: result});
 
     //         }else{res.send({ message: "Wrong email/password combination!"});
     //         }
 
          } else {
          console.log("User doesn't exist/invalid login");
-             res.send({ message: "User doesn't exists"});
+             res.send({ message: ""});
 
          }
 
@@ -110,7 +110,7 @@ app.post('/registration', (req, res) => {
  const username = req.body.username;
  const email = req.body.email;
  const password = req.body.password;
- console.log("registering account");
+ console.log("registering account!");
    db.execute(
      "INSERT INTO Users (username, email, password) VALUES (?,?,?)",
      [username, email, password],

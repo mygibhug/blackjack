@@ -1,8 +1,10 @@
 import React, {useRef, useEffect, useState} from "react";
 import "../assets/gameboard.css";
 import Button from 'react-bootstrap/Button';
+
 import { renderToString } from 'react-dom/server';
 import backgroundImage from '../assets/images/background.jpg';
+
 
 function Game(){
 
@@ -408,7 +410,9 @@ console.log("shuffling deck of " + array.length + " cards");
 
 
     return (
+
       <div style={{backgroundImage: `url(${backgroundImage})`, backgroundRepeat: 'no-repeat', width: '100%', height: '100%', backgroundSize: 'cover'}}>
+
         <meta charSet="utf-8" />
         <title>BabyBlackJack</title>
         <link rel="stylesheet" href="gameboard.css" />

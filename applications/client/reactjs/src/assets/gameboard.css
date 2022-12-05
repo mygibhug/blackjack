@@ -13,7 +13,9 @@
 
 h1{
     text-align: center;
+
     color:white;
+
 }
 
 .btn {
@@ -109,6 +111,7 @@ h1{
 
 #dealerHolder,
 #playerHolder {
+
     color: white;
     height: 180px;
     width: 500px;
@@ -117,16 +120,20 @@ h1{
 .dealerHolder,
 .playerHolder {
     color: white;
+
     height: 180px;
     width: 500px;
     align-items: center;
 }
+
 #message {
     height: 90px;
     font-size: 30px;
     text-align: center;
+
     color: white
 }
+
 
 
 #btnstay {
@@ -175,6 +182,7 @@ h1{
     font-size: 30px;
 }
 
+
 .Wallet {
     font-size: 30px;
     text-align: center;
@@ -184,7 +192,7 @@ h1{
     font-size: 30px;
     text-align: center;
     color: white;
-}
+
 
 #dValue {
     text-align: center;
