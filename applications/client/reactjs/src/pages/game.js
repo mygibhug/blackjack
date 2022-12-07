@@ -250,7 +250,7 @@ pValue.current = "";
 dValue.current = "";
     console.log("maxbet()");
     //mybet.current = refPlayerWallet.current;
-    mybet.current = 100;//refPlayerWallet.current;
+    mybet.current.value = 100;//refPlayerWallet.current;
     setMessage("Bet changed to $" + 100); //refPlayerWallet.current
 
 }
