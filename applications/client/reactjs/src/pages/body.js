@@ -20,7 +20,7 @@ class Body extends React.Component {
                 {/* < button className="signup" href="#link">Signup</button>
                 < button className="signin" href="#link">Signin</button> */}
             </div>
-            <Link to="/main">
+            <Link to="/game">
           <button className="playbutton">Play as guest</button>
         </Link>
              
