@@ -13,11 +13,11 @@ function NavbarLogout() {
   <Navbar bg="dark" variant="dark" > 
       
       <Container>
-        <Navbar.Brand className = "babyblackjack" href="/home" >Babyblackjack  </Navbar.Brand>
+        <Navbar.Brand className = "babyblackjack" href="/" >Babyblackjack  </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             
            
             <NavDropdown title="Menu" id="basic-nav-dropdown">

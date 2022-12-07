@@ -1,7 +1,7 @@
 import React, {useRef, useEffect, useState} from "react";
 import "../assets/gameboard.css";
 import Button from 'react-bootstrap/Button';
-
+import Navbar from '../components/Navbar';
 import { renderToString } from 'react-dom/server';
 import backgroundImage from '../assets/images/background.jpg';
 
@@ -265,16 +265,21 @@ function cardAction(a){
             endRound(); //end round and update the payout function
             break;
         case 'double':
-            var betvalue = parseInt(mybet.current);
+        console.log("double called");
+            var betvalue = mybet.current.value;
+            console.log("refplayerwalletcurrent: " + refPlayerWallet.current);
             if ((refPlayerWallet.current - betvalue) < 0) {
-                betvalue = betvalue + refPlayerWallet.current;
+                betvalue = betvalue + refPlayerWallet.current.value;
                 refPlayerWallet.current = 0;
+                            console.log("if: refplayerwalletcurrent: " + refPlayerWallet.current);
             } else {
                 refPlayerWallet.current = refPlayerWallet.current - betvalue;
                 betvalue = betvalue * 2;
+                            console.log("else: refplayerwalletcurrent: " + refPlayerWallet.current);
             }
-            dollarValue.current = refPlayerWallet.current;
-            mybet.current = betvalue;
+            console.log("after: refplayerwalletcurrent: " + refPlayerWallet.current);
+            dollarValue.current = refPlayerWallet.current.value;
+            mybet.current.value = betvalue;
             addCard();
             endRound();
             break;
@@ -424,6 +429,7 @@ console.log("shuffling deck of " + array.length + " cards");
 
 
     return (
+       <div> <Navbar/>
 
       <div style={{backgroundImage: `url(${backgroundImage})`, backgroundRepeat: 'no-repeat', width: '100%', height: '100%', backgroundSize: 'cover'}}>
 
@@ -469,7 +475,7 @@ console.log("shuffling deck of " + array.length + " cards");
 
               </div>
             </div>
-          </div></div></div>
+          </div></div></div></div>
     );
 }
 
